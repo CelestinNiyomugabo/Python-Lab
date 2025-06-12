@@ -110,3 +110,13 @@ k3_prediction = k3_neighbors['Y'].mode()[0]
 print(f"Prediction with K=3: {k3_prediction}")
 
 
+
+"""
+Question 4 from Chapter 3:
+a) We expect the training RSS for the cubic regression to be lower than that of the linear regression, because it has more flexibility and can better fit the training data — even if those extra terms are not needed.
+b) We expect the test RSS to be lower for the linear regression, because the cubic regression may overfit to noise in the training data, increasing its test error.
+c) We expect the training RSS to be lower for the cubic regression, because it has more parameters to better fit both linear and nonlinear patterns.
+d) There is not enough information to tell which test RSS will be lower. It depends on how nonlinear the true relationship is. The cubic model might perform better if the nonlinearity is substantial, but might overfit if the nonlinearity is minimal.
+"""
+
+
