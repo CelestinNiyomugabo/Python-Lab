@@ -120,3 +120,170 @@ d) There is not enough information to tell which test RSS will be lower. It depe
 """
 
 
+
+# Question 9 from Chap 3 
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.stats.anova import anova_lm
+
+# Load and clean data
+auto_df = pd.read_csv("Auto.csv")
+auto_df['horsepower'] = pd.to_numeric(auto_df['horsepower'], errors='coerce')
+auto_df.dropna(inplace=True)
+
+# (a) Scatterplot Matrix
+sns.pairplot(auto_df.drop(columns=['name']))
+plt.suptitle("Scatterplot Matrix of Auto Dataset", y=1.02)
+plt.show()
+
+# (b) Correlation Matrix
+correlation_matrix = auto_df.drop(columns=['name']).corr()
+print("Correlation Matrix:")
+print(correlation_matrix)
+
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+plt.title("Correlation Matrix")
+plt.show()
+
+# (c) Multiple Linear Regression
+auto_df_clean = auto_df.drop(columns=['name'])
+formula = 'mpg ~ cylinders + displacement + horsepower + weight + acceleration + year + origin'
+model = ols(formula, data=auto_df_clean).fit()
+print(model.summary())
+
+# (c.i) ANOVA
+anova_results = anova_lm(model)
+print("ANOVA Results:")
+print(anova_results)
+
+# (d) Diagnostic Plots
+residuals = model.resid
+fitted = model.fittedvalues
+
+plt.figure(figsize=(6, 4))
+sns.residplot(x=fitted, y=residuals, lowess=True, line_kws={'color': 'red'})
+plt.xlabel("Fitted values")
+plt.ylabel("Residuals")
+plt.title("Residuals vs Fitted")
+plt.show()
+
+sm.graphics.influence_plot(model, criterion="cooks")
+plt.show()
+
+# (e) Interaction Terms
+interaction_model = ols('mpg ~ weight * horsepower + year + cylinders + displacement + acceleration + origin', data=auto_df_clean).fit()
+print(interaction_model.summary())
+
+# (f) Transformations
+model_log_disp = ols('mpg ~ np.log(displacement) + horsepower + weight + acceleration + year + origin + cylinders', data=auto_df_clean).fit()
+print("Log(displacement) model:")
+print(model_log_disp.summary())
+
+model_sqrt_weight = ols('mpg ~ np.sqrt(weight) + horsepower + displacement + acceleration + year + origin + cylinders', data=auto_df_clean).fit()
+print("Sqrt(weight) model:")
+print(model_sqrt_weight.summary())
+
+model_year_squared = ols('mpg ~ year + I(year**2) + horsepower + weight + displacement + acceleration + origin + cylinders', data=auto_df_clean).fit()
+print("Year + Year^2 model:")
+print(model_year_squared.summary())
+
+
+
+
+
+# Question 14 from chapter 3
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+
+# (a) Generate synthetic data
+rng = np.random.default_rng(10)
+x1 = rng.uniform(0, 1, size=100)
+x2 = 0.5 * x1 + rng.normal(size=100) / 10
+y = 2 + 2 * x1 + 0.3 * x2 + rng.normal(size=100)
+
+df = pd.DataFrame({'x1': x1, 'x2': x2, 'y': y})
+
+# (b) Correlation and scatterplot
+correlation = np.corrcoef(x1, x2)[0, 1]
+print(f"Correlation between x1 and x2: {correlation:.2f}")
+
+plt.figure(figsize=(6, 4))
+sns.scatterplot(x=x1, y=x2)
+plt.title(f"Scatterplot of x1 vs x2 (Correlation: {correlation:.2f})")
+plt.xlabel("x1")
+plt.ylabel("x2")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+# (c) Multiple regression y ~ x1 + x2
+X_full = sm.add_constant(df[['x1', 'x2']])
+model_full = sm.OLS(df['y'], X_full).fit()
+print("\nMultiple Regression (y ~ x1 + x2):")
+print(model_full.summary())
+
+# (d) Regression y ~ x1 only
+X_x1 = sm.add_constant(df[['x1']])
+model_x1 = sm.OLS(df['y'], X_x1).fit()
+print("\nSimple Regression (y ~ x1):")
+print(model_x1.summary())
+
+# (e) Regression y ~ x2 only
+X_x2 = sm.add_constant(df[['x2']])
+model_x2 = sm.OLS(df['y'], X_x2).fit()
+print("\nSimple Regression (y ~ x2):")
+print(model_x2.summary())
+
+# (f) Interpretation:
+print("\nNote: Individually, both x1 and x2 are significant.")
+print("In the combined model, collinearity makes x2 appear insignificant.")
+
+# (g) Add mismeasured outlier observation
+x1_new = np.concatenate([x1, [0.1]])
+x2_new = np.concatenate([x2, [0.8]])
+y_new = np.concatenate([y, [6]])
+df_new = pd.DataFrame({'x1': x1_new, 'x2': x2_new, 'y': y_new})
+
+# Re-fit all models
+X_full_new = sm.add_constant(df_new[['x1', 'x2']])
+model_full_new = sm.OLS(df_new['y'], X_full_new).fit()
+
+X_x1_new = sm.add_constant(df_new[['x1']])
+model_x1_new = sm.OLS(df_new['y'], X_x1_new).fit()
+
+X_x2_new = sm.add_constant(df_new[['x2']])
+model_x2_new = sm.OLS(df_new['y'], X_x2_new).fit()
+
+print("\nWith Outlier Added:")
+print("\nFull Model with Outlier:")
+print(model_full_new.summary())
+
+print("\nModel (y ~ x1) with Outlier:")
+print(model_x1_new.summary())
+
+print("\nModel (y ~ x2) with Outlier:")
+print(model_x2_new.summary())
+
+# Influence plot for full model with outlier
+sm.graphics.influence_plot(model_full_new, criterion="cooks", size=1)
+plt.title("Influence Plot with Outlier (Full Model)")
+plt.tight_layout()
+plt.show()
+
+
+"""
+In the full model, the presence of the outlier increased multicollinearity sensitivity: x1 is now marginally insignificant, while x2 became more significant.
+
+The influence plot shows this new point (#100) has very high leverage and a large residual → it is both an outlier and a high-leverage point.
+"""
+
