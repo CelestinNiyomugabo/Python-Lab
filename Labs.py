@@ -31,11 +31,6 @@ print('beginning x:\n', x)
 x_reshape = x.reshape ((2, 3))
 print('reshaped x:\n', x_reshape )
 
-# Square root
-
-
-
-
 
 # Lists
 x = [3, 4, 5]
@@ -86,3 +81,105 @@ xlim = ax.get_xlim()
 ylim = [model.params[1] * x + model.params[0] for x in xlim]
 ax.plot(xlim, ylim, 'r--', linewidth=2)
 
+
+
+# Ploting the graph 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the sigmoid function
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Generate x values from -10 to 10
+x = np.linspace(-10, 10, 400)
+y = sigmoid(x)
+
+# Plot
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, label=r'Sigmoid Function $f(x) = \frac{1}{1 + e^{-x}}$', color='blue')
+plt.title('Logistic Regression Sigmoid Function')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.grid(True)
+plt.axvline(0, color='gray', linestyle='--', linewidth=1)
+plt.axhline(0.5, color='red', linestyle='--', linewidth=1)
+plt.legend()
+plt.show()
+
+
+
+# Define the function (second function)
+def alt_sigmoid(x):
+    return np.exp(x) / (1 + np.exp(x))
+
+# Generate x values
+x = np.linspace(-10, 10, 400)
+y = alt_sigmoid(x)
+
+# Plot
+plt.figure(figsize=(8, 4))
+plt.plot(x, y, label=r'$f(x) = \frac{e^x}{1 + e^x}$', color='green')
+plt.title('Alternative Form of the Sigmoid Function')
+plt.xlabel('x')
+plt.ylabel('f(x)')
+plt.grid(True)
+plt.axvline(0, color='gray', linestyle='--', linewidth=1)
+plt.axhline(0.5, color='red', linestyle='--', linewidth=1)
+plt.legend()
+plt.show()
+
+
+
+# Random number generation with a fixed seed
+rng = np.random.default_rng(1303)
+print(rng.normal(scale=5, size=2))
+rng2 = np.random.default_rng(1303)
+print(rng2.normal(scale=5, size=2)) 
+
+# Random number generation and basic statistics
+rng = np.random.default_rng(3)
+y = rng.standard_normal(10)
+np.mean(y), y.mean()
+
+# Variance calculation
+np.var(y), y.var(), np.mean((y - y.mean())**2)
+
+# Generate a random sample of 10 observations with 3 features
+X = rng.standard_normal((10, 3))
+X
+
+# Calculate the mean of each feature
+X.mean(axis=0)
+X.mean(0)
+
+
+# Plotting a scatter plot with random data
+fig, ax = subplots(figsize=(8, 8))
+x = rng.standard_normal(100)
+y = rng.standard_normal(100)
+ax.plot(x, y)
+
+# Plotting a scatter plot with specific data points
+fig, ax = subplots(figsize=(8, 8))
+ax.plot(x, y, 'o')
+
+# Alternative to the above
+fig, ax = subplots(figsize=(8, 8))
+ax.scatter(x, y, marker='o')
+
+# Scatter plot with labeled axes and title
+fig, ax = subplots(figsize=(8, 8))
+ax.scatter(x, y, marker='o')
+ax.set_xlabel("this is the x-axis")
+ax.set_ylabel("this is the y-axis")
+ax.set_title("Plot of X vs Y")
+
+
+# Contour plot of a function
+fig, ax = subplots(figsize=(8, 8))
+x = np.linspace(-np.pi, np.pi, 50)
+y = x
+f = np.multiply.outer(np.cos(y), 1 / (1 + x**2))
+ax.contour(x, y, f)
