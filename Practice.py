@@ -14,5 +14,5 @@ model = MultinomialNB()
 model.fit(X_counts, y)
 
 # Predict new data
-test = vectorizer.transform(["Good morning"])
+test = vectorizer.transform(["Spam"])
 print(model.predict(test))
