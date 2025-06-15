@@ -1,78 +1,60 @@
-# Import libraries
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Load the data
-Boston = pd.read_csv("Boston.csv", index_col=0)
-
-# Check dimensions
-Boston.shape
-
-# Pairwise scatterplots
-sns.pairplot(Boston[["crim", "zn", "indus", "nox", "rm", "age", "medv"]])
-plt.show()
-
-# Correlation matrix
-Boston.corr()
-
-# Simple linear regression
+from matplotlib.pyplot import subplots
 import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor as VIF
+from statsmodels.stats.anova import anova_lm
+from ISLP import load_data
+from ISLP.models import ModelSpec as MS, summarize, poly
 
-X = Boston["lstat"]
-y = Boston["medv"]
-X = sm.add_constant(X)
+# Load Boston housing data
+Boston = load_data("Boston")
+print(Boston.columns)
 
-model = sm.OLS(y, X).fit()
-print(model.summary())
+# Simple linear regression with lstat predicting medv
+X = pd.DataFrame({'intercept': np.ones(Boston.shape[0]), 'lstat': Boston['lstat']})
+y = Boston['medv']
+model = sm.OLS(y, X)
+results = model.fit()
+print(summarize(results))
 
-# Plot regression line
-plt.scatter(Boston["lstat"], Boston["medv"])
-plt.plot(Boston["lstat"], model.predict(X), color='red')
-plt.xlabel("LSTAT")
-plt.ylabel("MEDV")
-plt.show()
+# Using ModelSpec for transformations
+design = MS(['lstat'])
+X = design.fit_transform(Boston)
+print(X[:4])
 
-# Multiple linear regression
-X = Boston[["lstat", "rm"]]
-X = sm.add_constant(X)
-model = sm.OLS(y, X).fit()
-print(model.summary())
+# Diagnostic plots and predictions
+new_df = pd.DataFrame({'lstat':[5, 10, 15]})
+newX = design.transform(new_df)
+new_predictions = results.get_prediction(newX)
+print(new_predictions.predicted_mean)
+print(new_predictions.conf_int(alpha=0.05))
 
-# Full model
-X = Boston.drop("medv", axis=1)
-X = sm.add_constant(X)
-model = sm.OLS(y, X).fit()
-print(model.summary())
+# Plotting function
+def abline(ax, b, m, *args, **kwargs):
+    xlim = ax.get_xlim()
+    ylim = [m * xlim[0] + b, m * xlim[1] + b]
+    ax.plot(xlim, ylim, *args, **kwargs)
+
+# Scatter plot with regression line
+ax = Boston.plot.scatter('lstat', 'medv')
+abline(ax, results.params[0], results.params[1], color='red', linestyle='--', linewidth=2)
 
 # Diagnostic plots
-import statsmodels.graphics.api as smg
+fitted_values = results.fittedvalues
+residuals = results.resid
+influence = results.get_influence()
+studentized_residuals = influence.resid_studentized_external
+leverage = influence.hat_matrix_diag
 
-fig = plt.figure(figsize=(12, 8))
-smg.plot_regress_exog(model, "lstat", fig=fig)
-plt.show()
+# Plot fitted vs residuals
+_, ax = subplots(figsize=(8, 6))
+ax.scatter(fitted_values, residuals, facecolors='none', edgecolors='b')
+ax.set_xlabel('Fitted values')
+ax.set_ylabel('Residuals')
 
-# Variance Inflation Factor (VIF)
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-
-X = Boston.drop("medv", axis=1)
-X = sm.add_constant(X)
-vif = pd.DataFrame()
-vif["VIF Factor"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
-vif["features"] = X.columns
-print(vif)
-
-# Added variable plots
-fig = smg.plot_partregress_grid(model)
-plt.show()
-
-# Influence plot
-fig, ax = plt.subplots(figsize=(8,6))
-sm.graphics.influence_plot(model, ax=ax, criterion="cooks")
-plt.show()
-
-# Custom prediction
-new_data = pd.DataFrame({"lstat": [5.0], "rm": [6.0]})
-new_data = sm.add_constant(new_data, has_constant='add')
-model.predict(new_data)
+# Plot studentized residuals vs leverage
+_, ax = subplots(figsize=(8, 6))
+ax.scatter(leverage, studentized_residuals, facecolors='none', edgecolors='b')
+ax.set_xlabel('Leverage')
+ax.set_ylabel('Studentized residuals')
