@@ -183,3 +183,83 @@ x = np.linspace(-np.pi, np.pi, 50)
 y = x
 f = np.multiply.outer(np.cos(y), 1 / (1 + x**2))
 ax.contour(x, y, f)
+
+# Contour plot with specified levels
+fig, ax = subplots(figsize=(8, 8))
+ax.contour(x, y, f, levels=45)
+
+# Filled contour plot
+fig, ax = subplots(figsize=(8, 8))
+ax.imshow(f)
+
+
+# Sequences and Slice Notation
+seq1 = np.linspace(0, 10, 11)
+seq1
+
+# Indexing Data
+A = np.array(np.arange(16)).reshape((4, 4))
+A
+
+# Importing the Auto dataset
+import pandas as pd
+Auto = pd.read_csv('Auto.csv')
+Auto
+
+# Displaying the first few rows of the Auto dataset
+Auto_re = Auto.set_index('name')
+Auto_re.iloc[[3,4],[0,2,3]]
+
+# Filtering the Auto dataset based on conditions
+Auto_re.loc[lambda df: (df['displacement'] < 300)
+                       & (df.index.str.contains('ford')
+                       | df.index.str.contains('datsun')),
+            ['weight', 'origin']
+           ]
+
+
+# For Loops
+total = 0
+for value in [3,2,19]:
+    total += value
+print('Total is: {0}'.format(total))
+
+
+total = 0
+for value in [2,3,19]:
+    for weight in [3, 2, 1]:
+        total += value * weight
+print('Total is: {0}'.format(total))
+
+
+total = 0
+for value, weight in zip([2,3,19],
+                         [0.2,0.3,0.5]):
+    total += weight * value
+print('Weighted average is: {0}'.format(total))
+
+
+# String Formatting
+rng = np.random.default_rng(1)
+A = rng.standard_normal((127, 5))
+M = rng.choice([0, np.nan], p=[0.8,0.2], size=A.shape)
+A += M
+D = pd.DataFrame(A, columns=['food',
+                             'bar',
+                             'pickle',
+                             'snack',
+                             'popcorn'])
+D[:3]
+
+
+# Scatter plot of 'horsepower' vs 'mpg' from the Auto dataset
+fig, ax = subplots(figsize=(8, 8))
+ax.plot(Auto['horsepower'], Auto['mpg'], 'o')
+
+# Boxplot of 'mpg' by 'cylinders' from the Auto dataset
+fig, ax = subplots(figsize=(8, 8))
+Auto.boxplot('mpg', by='cylinders', ax=ax)
+
+# Histogram of 'mpg' from the Auto dataset
+fig, ax = subplots(figsize=(8, 8))
+Auto.hist('mpg', ax=ax)
