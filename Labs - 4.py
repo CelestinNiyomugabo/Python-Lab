@@ -150,8 +150,6 @@ confusion_table(nb_labels, L_test)
 NB.predict_proba(X_test)[:5]
 
 
-
-
 # K-Nearest Neighbors
 knn1 = KNeighborsClassifier(n_neighbors=1)
 X_train, X_test = [np.asarray(X) for X in [X_train, X_test]]
@@ -163,7 +161,13 @@ confusion_table(knn1_pred, L_test)
 
 knn3 = KNeighborsClassifier(n_neighbors=3)
 knn3_pred = knn3.fit(X_train, L_train).predict(X_test)
+confusion_table(knn3_pred, L_test)
 np.mean(knn3_pred == L_test)
+
+knn2 = KNeighborsClassifier(n_neighbors=2)
+knn2_pred = knn2.fit(X_train, L_train).predict(X_test)
+confusion_table(knn2_pred, L_test)
+np.mean(knn2_pred == L_test)
 
 Caravan = load_data('Caravan')
 Purchase = Caravan.Purchase
@@ -201,7 +205,7 @@ confusion_table(knn1_pred, y_test)
 
 
 # Poisson regression 
-
+#===================================
 Bike = load_data('Bikeshare')
 X = MS(['mnth',
         'hr',
