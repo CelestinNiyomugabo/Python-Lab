@@ -150,3 +150,98 @@ G = grid.fit(X_train, y_train)
 # Display the best ccp_alpha value
 best_ = grid.best_estimator_
 np.mean((y_test - best_.predict(X_test))**2)
+
+
+ax = subplots(figsize=(12,12))[1]
+plot_tree(G.best_estimator_,
+          feature_names=feature_names,
+          ax=ax)
+
+
+## Bagging and Random Forests
+bag_boston = RF(max_features=X_train.shape[1], random_state=0)
+bag_boston.fit(X_train, y_train)
+
+# Evaluate the bagging model on the test set
+ax = subplots(figsize=(8,8))[1]
+y_hat_bag = bag_boston.predict(X_test)
+ax.scatter(y_hat_bag, y_test)
+np.mean((y_test - y_hat_bag)**2)
+
+
+# Random Forests with 500 trees
+bag_boston = RF(max_features=X_train.shape[1],
+                n_estimators=500,
+                random_state=0).fit(X_train, y_train)
+y_hat_bag = bag_boston.predict(X_test)
+np.mean((y_test - y_hat_bag)**2)
+
+# Random Forests with 6 features
+RF_boston = RF(max_features=6,
+               random_state=0).fit(X_train, y_train)
+y_hat_RF = RF_boston.predict(X_test)
+np.mean((y_test - y_hat_RF)**2)
+
+# Display the feature importances
+feature_imp = pd.DataFrame(
+    {'importance':RF_boston.feature_importances_},
+    index=feature_names)
+feature_imp.sort_values(by='importance', ascending=False)
+
+
+## Boosting
+boost_boston = GBR(n_estimators=5000,
+                   learning_rate=0.001,
+                   max_depth=3,
+                   random_state=0)
+boost_boston.fit(X_train, y_train)
+
+
+# Evaluate the boosting model on the test set   
+test_error = np.zeros_like(boost_boston.train_score_)
+for idx, y_ in enumerate(boost_boston.staged_predict(X_test)):
+   test_error[idx] = np.mean((y_test - y_)**2)
+
+plot_idx = np.arange(boost_boston.train_score_.shape[0])
+ax = subplots(figsize=(8,8))[1]
+ax.plot(plot_idx,
+        boost_boston.train_score_,
+        'b',
+        label='Training')
+ax.plot(plot_idx,
+        test_error,
+        'r',
+        label='Test')
+ax.legend()
+
+# Predict using the boosting model
+y_hat_boost = boost_boston.predict(X_test)
+np.mean((y_test - y_hat_boost)**2)
+
+
+# Predict using the boosting model with a different learning rate
+boost_boston = GBR(n_estimators=5000,
+                   learning_rate=0.2,
+                   max_depth=3,
+                   random_state=0)
+boost_boston.fit(X_train,
+                 y_train)
+y_hat_boost = boost_boston.predict(X_test)
+np.mean((y_test - y_hat_boost)**2)
+
+
+## Bayesian Additive Regression Trees
+#=================================================================
+bart_boston = BART(random_state=0, burnin=5, ndraw=15)
+bart_boston.fit(X_train, y_train)
+
+# Evaluate the BART model on the test set
+yhat_test = bart_boston.predict(X_test.astype(np.float32))
+np.mean((y_test - yhat_test)**2)
+
+# Display the variable inclusion probabilities
+var_inclusion = pd.Series(bart_boston.variable_inclusion_.mean(0),
+                               index=D.columns)
+var_inclusion
+
+

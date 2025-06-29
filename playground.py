@@ -34,5 +34,37 @@ ax[0].plot(x)
 ax[1].plot(y2[0], y2[1], 'o')
 
 
+fig , ax = plt.subplots (figsize =(8, 8))
+x = np.linspace (-np.pi , np.pi , 50)
+y = x
+f = np.multiply .outer(np.cos(y), 1 / (1 + x**2))
+ax.contour(x, y, f)
 
+
+# Linear regression
+#===================================================================
+import numpy as np
+import pandas as pd
+from matplotlib.pyplot import subplots
+
+import statsmodels.api as sm
+from statsmodels.stats. outliers_influence \
+import variance_inflation_factor as VIF
+from statsmodels.stats.anova import anova_lm
+
+from ISLP import load_data
+from ISLP.models import ( ModelSpec as MS ,
+summarize ,
+poly)
+
+
+Boston = load_data ("Boston")
+Boston.columns
+
+model = sm.OLS(Boston['medv'],
+               sm.add_constant(Boston[['lstat', 'age']])).fit()
+print(model.summary())
+
+
+Boston.head()
 
