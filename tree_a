@@ -1,0 +1,22 @@
+// Tree from Part (a)
+digraph {
+	A [label="X1 < 1"]
+	B [label="X1 < 0.5"]
+	C1 [label="X2 == 0?"]
+	C2 [label="X2 == 1"]
+	D [label="X2 == 0?"]
+	L1 [label="Y = 3" shape=box]
+	L2 [label="Y = 15" shape=box]
+	L3 [label="Y = 15" shape=box]
+	L4 [label="Y = 0" shape=box]
+	L5 [label="Y = 5" shape=box]
+	A -> B [label=Yes]
+	A -> D [label=No]
+	B -> C1 [label=Yes]
+	B -> C2 [label=No]
+	C1 -> L1 [label=Yes]
+	C1 -> L2 [label=No]
+	C2 -> L3
+	D -> L4 [label=Yes]
+	D -> L5 [label=No]
+}

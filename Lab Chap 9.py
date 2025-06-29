@@ -245,7 +245,7 @@ ax.scatter(X[:,0], X[:,1], c=y, cmap=cm.coolwarm)
 svm_rbf_3 = SVC(kernel="rbf",
                 C=10,
                 gamma=1,
-                decision_function_shape='ovo');
+                decision_function_shape='ovo')
 svm_rbf_3.fit(X, y)
 fig, ax = subplots(figsize=(8,8))
 plot_svm(X,
