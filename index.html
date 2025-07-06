@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 40px;
+            margin: 40px 10%;
             line-height: 1.8;
             background-color: #fdfdfd;
             color: #333;
@@ -30,6 +30,7 @@
 </head>
 <body>
     <h1>Summary of what we have covered</h1>
+    <h3>Celestin Niyomugabo - 100883</h3>
     <p>This course taught me how to apply key statistical learning and data mining methods in Python to solve real-world problems. I learned to distinguish between different types of learning tasks, such as regression, classification, and clustering, and to select appropriate models for each based on data type, structure, and objective. Through hands-on labs, I developed practical skills in training, validating, and interpreting models using Python. I gained valuable experience in using model evaluation techniques like cross-validation, bootstrapping, and regularization to improve model performance. I also explored how ensemble learning methods and deep learning architectures enhance predictive accuracy in complex scenarios. Most importantly, I learned how these techniques connect to big data analytics by enabling scalable, efficient, and insightful analysis of large and diverse datasets.</p>
 
 
@@ -48,11 +49,11 @@
 
     <h2 id="chapter2">Chapter 2: Statistical Learning</h2>
     <p>This chapter introduced supervised and unsupervised learning, showing how machine learning models identify patterns from data. In supervised learning, models are trained on input features with known outcomes. In unsupervised learning, models try to detect patterns without labeled outcomes. The chapter explains that simpler models may underfit while overly complex models may overfit, highlighting the importance of the bias-variance tradeoff. Through Python examples, I learned how to use NumPy arrays for data manipulation and visualization using matplotlib. The K-Nearest Neighbors (KNN) algorithm is presented as a simple yet effective technique that predicts outcomes based on the proximity of data points in feature space. KNN works best when features are scaled and the data has natural groupings, as demonstrated through scatter plots, reshaping arrays, and basic numerical operations in Python.
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch02">Chapter 2 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%202.py">Chapter 2 Lab</a></p>
 
     <h2 id="chapter3">Chapter 3: Linear Regression</h2>
     <p>This chapter focused on using linear regression to predict continuous outcomes. It begins with simple linear regression, modeling the relationship between one predictor and the outcome, and shows how to fit models using statsmodels. Diagnostic plots help evaluate residual behavior, fitted values, and leverage, ensuring assumptions like linearity and constant variance are reasonably met. The chapter then expands to multiple linear regression, including all predictors to assess their combined influence. Using Variance Inflation Factor (VIF), it introduces multicollinearity checks. The chapter also covers adding interaction terms and polynomial terms using ModelSpec, and compares models using ANOVA. Finally, it explores regression with qualitative predictors, showing how to encode and include interactions between categorical and continuous variables for richer modeling.
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch03">Chapter 3 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%203.py">Chapter 3 Lab</a></p>
 
     <h2 id="chapter4">Chapter 4: Classification</h2>
     <p>In this chapter we covered different approaches to classifying categorical outcomes. 
@@ -63,12 +64,7 @@
             <li><strong>K-Nearest Neighbors:</strong> classifies based on the closest training examples, requiring feature scaling to ensure distance metrics are meaningful. </li>
             <li><strong>Naive Bayes:</strong> applies conditional probability, handling high-dimensional inputs effectively when predictor independence is reasonably assumed. </li>
         </ul>
-        
-        
-        
-        
-        
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch04">Chapter 4 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%204.py">Chapter 4 Lab</a></p>
 
     <h2 id="chapter5">Chapter 5: Resampling Methods</h2>
    <p>In this chapter we covered cross-validation and bootstrap techniques, essential for estimating how well models generalize to new data. These methods are especially useful when data is limited and a separate test set is not available. </p>
@@ -77,7 +73,7 @@
     <li><strong>Bootstrap method:</strong> allows us to quantify uncertainty in model estimates by repeatedly drawing samples with replacement from the observed data.</li>
    </ul>
    
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch05">Chapter 5 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%205.py">Chapter 5 Lab</a></p>
 
     <h2 id="chapter6">Chapter 6: Model Selection & Regularization</h2>
     <p>This chapter focused on strategies for improving predictive performance and reducing overfitting are introduced. Regularization techniques like Ridge Regression and LASSO penalize overly complex models.</p>
@@ -87,7 +83,7 @@
         <li>Principal Component Regression (PCR) and Partial Least Squares (PLS) transform features into lower-dimensional spaces to remove redundancy before fitting the model.</li>
      </ul>
        
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch06">Chapter 6 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%206.py">Chapter 6 Lab</a></p>
 
     <h2 id="chapter8">Chapter 8: Tree-Based Methods</h2>
     <p>Decision trees partition data into regions based on features, producing intuitive and interpretable models. These models are appealing due to their visual structure but can be unstable. 
@@ -97,14 +93,15 @@
         <li><strong>Boosting</strong> builds trees sequentially, each focusing on correcting the errors of the previous.</li>
     </ul>
     <p>These ensemble methods excel in complex, high-dimensional settings where interactions and non-linearities dominate.</p>
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch08">Chapter 8 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%208.py">Chapter 8 Lab</a></p>
 
     <h2 id="chapter9">Chapter 9: Support Vector Machines</h2>
     <p>SVMs aim to find the best separating hyperplane between classes by maximizing the margin (the distance between the decision boundary and the nearest data points). This makes them particularly effective when the data is clearly separable or lies near a margin. The use of kernels extends their power by enabling them to classify data that is not linearly separable. When classes are not well-separated in original space, the kernel trick allows transformation into a higher-dimensional space for better separation.</p>
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch09">Chapter 9 Lab</a></p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%209.py">Chapter 9 Lab</a></p>
     
     <h2 id="chapter10">Deep Learning</h2>
     <p>In this chapter we covered neural networks as flexible models capable of capturing complex, non-linear relationships in large datasets. Starting with single-layer perceptrons, we learnt how to builds up to multilayer networks trained using backpropagation and stochastic gradient descent. Convolutional Neural Networks (CNNs) are highlighted for image data due to their ability to learn spatial hierarchies, while Recurrent Neural Networks (RNNs) are introduced for sequential data such as text or time series. These methods require large volumes of data and computational resources, but they outperform traditional models in tasks such as document classification and image recognition.</p>
+    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%2010.py">Chapter 10 Lab</a></p>
 
 
     <h2 id="chapter12">Chapter 12: Unsupervised Learning</h2>
@@ -115,9 +112,10 @@
         <li><strong>Hierarchical clustering: </strong> builds nested clusters and is suitable for exploratory analysis where the cluster structure is not known beforehand.</li>
     </ul>
         
-    <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/tree/main/Ch12">Chapter 12 Lab</a></p>
+     <p><strong>Lab:</strong> <a href="https://github.com/CelestinNiyomugabo/Python-Lab/blob/a1b944f274f5441ace446eb673ca9228580b9230/Lab%20Chap%2012.py">Chapter 12 Lab</a></p>
 
-    <h2>Summary of Algorithms</h2>
+
+    <h2>Summary of algorithms</h2>
     <table class="table table-striped">
         <thead>
             <tr>
